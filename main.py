@@ -127,15 +127,21 @@ async def ping(ctx):
 	await ctx.send(embed=embed)
 
 @help.command()
+async def clear(ctx):
+	embed = discord.Embed(title="Clear",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value='`$clear [number of messages]`')
+	await ctx.send(embed=embed)
+
+@help.command()
 async def dis(ctx):
 	embed = discord.Embed(title="Disappearing Messages",description="",color=discord.Color.green())
 	embed.add_field(name="**Syntax**",value='`$dis "<message>" <seconds>`')
 	await ctx.send(embed=embed)
 
 @help.command()
-async def dis(ctx):
+async def poll(ctx):
 	embed = discord.Embed(title="Poll",description="",color=discord.Color.green())
-	embed.add_field(name="**Syntax**",value='`$poll "<question>" "<option1> <option2>`')
+	embed.add_field(name="**Syntax**",value='`$poll "<question>" "[option1]" "[option2]"`')
 	await ctx.send(embed=embed)
 
 ################ HELP ########################
@@ -304,6 +310,18 @@ async def dis(ctx,message,second='10'):
 	await ctx.channel.purge(limit=1)
 
 @client.command()
+async def clear(ctx,value='1'):
+	await ctx.channel.purge(limit=1)
+	limit = int(value)
+	if 0 < limit <=100:
+		with ctx.channel.typing():
+			deleted = await ctx.channel.purge(limit=limit)
+
+			await ctx.send(f"Deleted {len(deleted)} messages.", delete_after=5)
+	else:
+		await ctx.send("The limit provided is notwithin acceptable bounds")
+#### Poll ####
+@client.command()
 async def poll(ctx, question=None, option1=None, option2=None):
 	if question==None:
 		await ctx.send('You forgot to ask a question \nTo know more use`$help poll`')
@@ -336,6 +354,144 @@ async def poll(ctx, question=None, option1=None, option2=None):
 		await text.add_reaction('✅')
 		await text.add_reaction('❎')
 
+### Poll ###
+
+### TicTacToe ###
+
+player1 = ""
+player2 = ""
+turn = ""
+gameOver = True
+
+board = []
+
+winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
+
+@client.command()
+async def tictactoe(ctx, p1: discord.Member, p2: discord.Member):
+    global count
+    global player1
+    global player2
+    global turn
+    global gameOver
+
+    if gameOver:
+        global board
+        board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:",
+                 ":white_large_square:", ":white_large_square:", ":white_large_square:"]
+        turn = ""
+        gameOver = False
+        count = 0
+
+        player1 = p1
+        player2 = p2
+
+        # print the board
+        line = ""
+        for x in range(len(board)):
+            if x == 2 or x == 5 or x == 8:
+                line += " " + board[x]
+                await ctx.send(line)
+                line = ""
+            else:
+                line += " " + board[x]
+
+        # determine who goes first
+        num = random.randint(1, 2)
+        if num == 1:
+            turn = player1
+            await ctx.send("It is <@" + str(player1.id) + ">'s turn.")
+        elif num == 2:
+            turn = player2
+            await ctx.send("It is <@" + str(player2.id) + ">'s turn.")
+    else:
+        await ctx.send("A game is already in progress! Finish it before starting a new one.")
+
+@client.command()
+async def place(ctx, pos: int):
+    global turn
+    global player1
+    global player2
+    global board
+    global count
+    global gameOver
+
+    if not gameOver:
+        mark = ""
+        if turn == ctx.author:
+            if turn == player1:
+                mark = ":regional_indicator_x:"
+            elif turn == player2:
+                mark = ":o2:"
+            if 0 < pos < 10 and board[pos - 1] == ":white_large_square:" :
+                board[pos - 1] = mark
+                count += 1
+
+                # print the board
+                line = ""
+                for x in range(len(board)):
+                    if x == 2 or x == 5 or x == 8:
+                        line += " " + board[x]
+                        await ctx.send(line)
+                        line = ""
+                    else:
+                        line += " " + board[x]
+
+                checkWinner(winningConditions, mark)
+                print(count)
+                if gameOver == True:
+                    await ctx.send(mark + " wins!")
+                elif count >= 9:
+                    gameOver = True
+                    await ctx.send("It's a tie!")
+
+                # switch turns
+                if turn == player1:
+                    turn = player2
+                elif turn == player2:
+                    turn = player1
+            else:
+                await ctx.send("Be sure to choose an integer between 1 and 9 (inclusive) and an unmarked tile.")
+        else:
+            await ctx.send("It is not your turn.")
+    else:
+        await ctx.send("Please start a new game using the !tictactoe command.")
+
+
+def checkWinner(winningConditions, mark):
+    global gameOver
+    for condition in winningConditions:
+        if board[condition[0]] == mark and board[condition[1]] == mark and board[condition[2]] == mark:
+            gameOver = True
+
+@tictactoe.error
+async def tictactoe_error(ctx, error):
+    print(error)
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please mention 2 players for this command.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to mention/ping players (ie. <@688534433879556134>).")
+
+@place.error
+async def place_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please enter a position you would like to mark.")
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please make sure to enter an integer.")
+
+### TicTacToe ###
+
+
 ################ Commands  #################
 
 ############### Status ################
@@ -352,4 +508,4 @@ Token = os.environ['TOKEN']
 
 
 keep_alive() #to run the web server 
-client.run(Token) 
+client.run(Token)   
