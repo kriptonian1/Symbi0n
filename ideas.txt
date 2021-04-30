@@ -1,0 +1,23 @@
+--------------- Admin --------------
+1) kick
+2) ban
+3) Unban
+
+-------------- Interactive ----------
+1) echo
+2) Tictactoe (early-access)
+3) merlin
+4) Truth and dare
+5) flip a coin
+6) poll
+
+------------- General ---------------
+1) dissap messages 
+2) clear
+3) ping
+
+-------------- Entertainment ---------
+1) porn
+2) memes
+3) memes_nsfw
+4) quotes

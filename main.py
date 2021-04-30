@@ -6,41 +6,12 @@ import random
 import time
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
-#from youtube_dl import YoutubeDL
+from merlin import get_merlin
+from Truth_n_Dare import *
+
 
 client = commands.Bot(command_prefix = '$')
 client.remove_command("help")
-
-
-
-
-def get_merlin(q):
-	import http.client
-	import json
-	import urllib.parse
-	conn = http.client.HTTPSConnection("8ball.delegator.com")
-	question = urllib.parse.quote(q)
-	conn.request('GET', '/magic/JSON/' + question)
-	response = conn.getresponse()
-	ans=(json.loads(response.read()))
-	return (ans['magic']['answer'])
-
-
-
-def truth():
-	options = ["What's the biggest lie you've told to somebody in this room?","What question would you least like to be asked?","Have you ever gone a day without underwear?","What is one thing about yourself you try to keep hidden?","Have you ever done something against the law?","When was the last time you peed in a swimming pool?","What's something you secretly like but are embarrassed by?","What's something about yourself that would scare other people if they knew?","Do you have a diary?","Have you ever watched an *adult film*?","Who is your favourite person in this room?","Who are your two least favourite people in this room?","When was the last time you wet your pants?","Have you ever pooped in your pants?","If you were the opposite sex for an hour, what would you do?","List all the things in your room that you have made some attempt to hide.","What's the worst thing you've ever done to your parents?","What's the most embarrassing thing you've been to the doctor for?","What's the most expensive thing you've broken?","What's the worst thing you've ever done to your siblings?","If you could be invisible for 2 hours, what would you do?","What's the most embarrassing song you like?","What's the most embarrassing TV show you like?","What's the most embarrassing website you like?","What's the most embarrassing movie you like?","What Was Your First Kiss Like?","What Is Your Least Favorite Thing About Your Best Friend?","Have You Ever Committed A Crime? If So, What Was It?","Have You Ever Cried From Watching A TV Show Or A Movie?"," What Do You Do When You Are Alone And No One Is Watching You?","What Is One Thing That You Have Always Wanted To Do But Have Not Gotten Around To It Yet?",'Who is the sexiest person in this room?','Who is your current crush?']
-	question = random.choice(options)
-	return question
-
-
-
-def dare():
-	options = ["Do a *show and tell* with the ENTIRE contents of your purse","Pick your nose and eat it in front of the group.",'''Text five people in your phone contacts list with the message "I'm awesome!"''',"Make a rap song about (insert topic) and perform it to the group.","Put an ice cube down your back.","Imitate another player and have everyone guess who you are.","Do an imitation of Tarzan.","Pick One Person In The Group, What Is Some Honest Relationship Advice You Would Give Them?","Tell Us About Your Five Bad Habits.","Do 50 sit ups.","Send a love letter to someone on Whatsapp(except the person playing the game).",'Send someone a message that says, “I know what you did last summer.”',"Say the alphabet backwards.","Call someone on your phone and talk to them for 5 minutes without telling them that you are playing Truth or Dare.","Prank call someone and pretend she/he is your girlfriend/boyfriend and propose to him/her.","Try to do a stand up comedy in front of the other players.","Show your whole browsing history to the players in the room.","Propose to the person under you in voice channel","Prank call someone and make them believe that they have won the lottery.","Prank call someone and tell them that you are horny.","Try to touch your nose with your tongue.","Call your closest friend and invite him/her for a threesome.","Make out with your hand.","Post an old selfie on your Instagram story.","Do 30 situps."]
-	question = random.choice(options)
-	return question
-
-
-
 
 
 
@@ -52,14 +23,17 @@ async def on_ready():
 
 
 
+
+
 ################## HELP #####################
 
 @client.group(invoke_without_command=True)
 async def help(ctx):
 	embed = discord.Embed(title="Help",description='Use `$help <description>` for extended information on that command', color=discord.Color.green())
-	embed.add_field(name="Games", value="merlin, TnD, flp, poll", inline = False)
-	embed.add_field(name="Fun",value="memes, porn, meme_nsfw, quote",inline = False)
-	embed.add_field(name="adminstrative",value="echo, ping, dis", inline = False)
+	embed.add_field(name="Admin", value="kick, ban, Unban", inline = False)
+	embed.add_field(name="General",value="dis(early-access) , clear, ping",inline = False)
+	embed.add_field(name="Interactive",value="echo, Tictactoe (early-access), merlin, TnD, flp, poll", inline = False)
+	embed.add_field(name="Entertainment",value="porn, memes, memes_nsfw, quotes", inline = False)
 	await ctx.send(embed=embed)
 
 ### Game ###
@@ -144,9 +118,14 @@ async def poll(ctx):
 	embed.add_field(name="**Syntax**",value='`$poll "<question>" "[option1]" "[option2]"`')
 	await ctx.send(embed=embed)
 
+
+
 ################ HELP ########################
 
+
 ############### Commands #####################
+
+### Ping ###
 
 @client.command(aliases=['p','pings'],help='-> shows the latancy')
 async def ping(ctx):
@@ -161,6 +140,9 @@ async def ping(ctx):
 
 
 
+
+### Quote ###
+
 @client.command(aliases=['q','quotes'],help='-> gives random quotes')
 async def quote(ctx):
 	response = requests.get("https://zenquotes.io/api/random")
@@ -173,6 +155,10 @@ async def quote(ctx):
 
 
 
+
+
+### Merlin ###
+
 @client.command(aliases=['merlin','mr'], help='-> Play 8ball game \n $8ball [question]')
 async def Merlin(ctx,*,question = None):
 	if question == None:
@@ -184,9 +170,11 @@ async def Merlin(ctx,*,question = None):
 
 
 
+### Memes ###
+
 @client.command(aliases=['meme','m','Meme',], help='-> gives')
 async def memes(ctx):
-	r = requests.get('https://memes.blademaker.tv/api?lang=en')
+	r = requests.get('https://memes.blademaker.tv/api?lang=en','https://memes.blademaker.tv/api/dankmemes',)
 	res = r.json() #disc value from the website 
 	title = res['title']
 	ups = res['ups']
@@ -201,11 +189,13 @@ async def memes(ctx):
 
 	await ctx.send(embed=embed)
 
-
+### Meme_NSFW ###
 
 @client.command(aliases=['mn','MEME_NSFW'], help='-> gives')
 async def meme_nsfw(ctx):
-		r = requests.get('https://memes.blademaker.tv/api/nswf')
+		link=['https://memes.blademaker.tv/api/nswf']
+		url = random.choice(links)
+		r = requests.get(url)
 		res = r.json()
 		title = res['title']
 		ups = res['ups']
@@ -221,9 +211,11 @@ async def meme_nsfw(ctx):
 
 
 
+### Porn ###
+
 @client.command(aliases=['Porn','pn'], help='-> do you really need an explanation ')
 async def porn(ctx):
-	links=['https://memes.blademaker.tv/api/onlyfansgirls101','https://memes.blademaker.tv/api/Nudes','']
+	links=['https://memes.blademaker.tv/api/onlyfansgirls101','https://memes.blademaker.tv/api/Nude_Selfie','https://memes.blademaker.tv/api/gonewild','https://memes.blademaker.tv/api/RealGirls','https://memes.blademaker.tv/api/BustyPetite','https://memes.blademaker.tv/api/LegalTeens','https://memes.blademaker.tv/api/PetiteGoneWild','https://memes.blademaker.tv/api/adorableporn','https://memes.blademaker.tv/api/AsiansGoneWild','https://memes.blademaker.tv/api/collegesluts','https://memes.blademaker.tv/api/Amateur','https://memes.blademaker.tv/api/OnOff','https://memes.blademaker.tv/api/HappyEmbarrassedGirls',]
 	url=random.choice(links)
 	r = requests.get(url)
 	res = r.json()
@@ -241,19 +233,23 @@ async def porn(ctx):
 
 
 
+### flip a coin ###
+
 @client.command(aliases=['flip a coin','flp','coin'],help='-> flips the coin')
 async def flip_a_coin(ctx):
 	coin = ['Heads','Tails']
 	outcome = random.choice(coin)
 	embed = discord.Embed(title = f"It's a {outcome}",color = discord.Color.gold())
 	if outcome == "Heads":
-		embed.set_image(url='https://cdn.discordapp.com/attachments/834674945111228449/835830593521451029/fMemdeFmPeYAAAAAASUVORK5CYII.png')
+		embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/835036413907959869/837278365794304020/1619692438165.png")
 	else:
-		embed.set_image(url='https://cdn.discordapp.com/attachments/834674945111228449/835830672588537896/AOtIbcrHgWsU7DR3rvwHVJ6d30gKvDQAAAABJRU5ErkJggg.png')
+		embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/835036413907959869/837278365944905768/1619692570963.png')
 	embed.set_author(name=ctx.author.display_name,icon_url=ctx.author.avatar_url)
 	await ctx.send(embed=embed)
 
 
+
+### Truth and Dare ###
 
 @client.command(aliases = ['t&d','truth and dare','tnd'],help = '-> play truth and date with your friends')
 async def TnD(ctx,category=None):
@@ -270,6 +266,8 @@ async def TnD(ctx,category=None):
 	
 
 
+### Echo ###
+
 @client.command(help = "-> prompt users input")
 async def echo(ctx,*args):
 	await ctx.channel.purge(limit=1)
@@ -279,11 +277,17 @@ async def echo(ctx,*args):
 		string+=" "
 	await ctx.send(string)
 
+
+
+### Kick ###
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, user: discord.Member, *, reason=None):
   await user.kick(reason=reason)
   await ctx.send(f"{user} have been kicked sucessfully")
+
+
+### Ban ###
 
 @client.command()
 @commands.has_permissions(ban_members=True)
@@ -291,17 +295,24 @@ async def ban(ctx, user: discord.Member, *, reason=None):
   await user.ban(reason=reason)
   await ctx.send(f"{user} have been bannned sucessfully")
 
+
+### Unban ###
+
 @client.command()
 async def unban(ctx, *, member):
-  banned_users = await ctx.guild.bans()
-  member_name, member_discriminator = member.split('#')
+	banned_users = await ctx.guild.bans()
+	member_name, member_discriminator = member.split('#')
 
-  for ban_entry in banned_users:
-    user = ban_entry.user
+	for ban_entry in banned_users:
+		user = ban_entry.user
   
-  if (user.name, user.discriminator) == (member_name, member_discriminator):
-    await ctx.guild.unban(user)
-    await ctx.send(f"{user} have been unbanned sucessfully")
+	if (user.name, user.discriminator) == (member_name, member_discriminator):
+		await ctx.guild.unban(user)
+		await ctx.send(f"{user} have been unbanned sucessfully")
+
+
+
+### Disapearing Messages ###
 
 @client.command()
 async def dis(ctx,message,second='10'):
@@ -309,6 +320,9 @@ async def dis(ctx,message,second='10'):
 	time.sleep(t)
 	await ctx.channel.purge(limit=1)
 
+
+
+### Clear ###
 @client.command()
 async def clear(ctx,value='1'):
 	await ctx.channel.purge(limit=1)
@@ -320,6 +334,9 @@ async def clear(ctx,value='1'):
 			await ctx.send(f"Deleted {len(deleted)} messages.", delete_after=5)
 	else:
 		await ctx.send("The limit provided is notwithin acceptable bounds")
+
+
+
 #### Poll ####
 @client.command()
 async def poll(ctx, question=None, option1=None, option2=None):
@@ -354,7 +371,8 @@ async def poll(ctx, question=None, option1=None, option2=None):
 		await text.add_reaction('✅')
 		await text.add_reaction('❎')
 
-### Poll ###
+
+
 
 ### TicTacToe ###
 
@@ -489,7 +507,7 @@ async def place_error(ctx, error):
     elif isinstance(error, commands.BadArgument):
         await ctx.send("Please make sure to enter an integer.")
 
-### TicTacToe ###
+
 
 
 ################ Commands  #################
@@ -502,10 +520,10 @@ async def change_status():
 
 ########### Status ###############
 
-# pls don't change the things under 
+# !!!!  pls don't change the things under !!!! 
 Token = os.environ['TOKEN']
 
 
-
 keep_alive() #to run the web server 
-client.run(Token)   
+
+client.run(Token)   #to run the bot

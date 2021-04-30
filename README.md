@@ -33,8 +33,12 @@
 
 
 ## Tasks
-- [ ] Add more link to `Porn`
+- [ ] Write Description 
+- [x] Add more link to `Porn`
 - [ ] Add some more liks to `Memes`
 - [ ] Add more links to `Meme_NSFW`
 - [ ] Redo the Questions of `Truth and Dare`
-- [ ] change the Hade and tail image from `flp`
+- [x] change the Head and tail image from `flp`
+- [ ] Improve `Unban`
+- [ ] give warning to those not having of `kick`, `ban`, `unban`
+- [x] `flp` picture as thumnail
