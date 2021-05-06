@@ -3,11 +3,18 @@ import discord
 import requests
 import json
 import random
+import aiohttp
+import io
 import time
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
 from merlin import get_merlin
 from Truth_n_Dare import *
+from porn_link import porn_links
+from meme_nsfw_link import nsfw_links
+from meme_link import meme_links
+from hentai_link import hentai_links
+from roll_a_die import roll_a_die_get
 
 
 client = commands.Bot(command_prefix = '$')
@@ -33,7 +40,7 @@ async def help(ctx):
 	embed.add_field(name="Admin", value="kick, ban, Unban", inline = False)
 	embed.add_field(name="General",value="dis(early-access) , clear, ping",inline = False)
 	embed.add_field(name="Interactive",value="echo, Tictactoe (early-access), merlin, TnD, flp, poll", inline = False)
-	embed.add_field(name="Entertainment",value="porn, memes, memes_nsfw, quotes", inline = False)
+	embed.add_field(name="Entertainment",value="porn, meme, memes_nsfw, quotes", inline = False)
 	await ctx.send(embed=embed)
 
 ### Game ###
@@ -118,6 +125,33 @@ async def poll(ctx):
 	embed.add_field(name="**Syntax**",value='`$poll "<question>" "[option1]" "[option2]"`')
 	await ctx.send(embed=embed)
 
+@help.command()
+async def tictactoe(ctx):
+	embed = discord.Embed(title="Flip a Coin",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value="`$tictactoe <@player1> <@player2>`")
+	await ctx.send(embed=embed)
+
+
+@help.command()
+async def kick(ctx):
+	embed = discord.Embed(title="Flip a Coin",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value="`$kick <@member>`")
+	await ctx.send(embed=embed)
+
+
+@help.command()
+async def ban(ctx):
+	embed = discord.Embed(title="Flip a Coin",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value="`$ban <@member>`")
+	await ctx.send(embed=embed)
+
+
+@help.command()
+async def unban(ctx):
+	embed = discord.Embed(title="Flip a Coin",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value="`$unban <@member>`")
+	await ctx.send(embed=embed)
+
 
 
 ################ HELP ########################
@@ -173,28 +207,52 @@ async def Merlin(ctx,*,question = None):
 ### Memes ###
 
 @client.command(aliases=['meme','m','Meme',], help='-> gives')
-async def memes(ctx):
-	r = requests.get('https://memes.blademaker.tv/api?lang=en','https://memes.blademaker.tv/api/dankmemes',)
-	res = r.json() #disc value from the website 
-	title = res['title']
-	ups = res['ups']
-	downs = res['downs']
-	sub = res['subreddit']
-	Id = res['id']
-	title_link = title.replace(" ","_")
-	reddit_link = "https://www.reddit.com/r/"+sub+"/comments/"+Id+"/"+title_link+"/"
-	embed = discord.Embed(title=f"{title}\nsubreddit: {sub}",url=reddit_link,color=discord.Color.blue())   
-	embed.set_image(url = res["image"])
-	embed.set_footer(text=f"👍:{ups}   👎:{downs}") 
+async def memes(ctx,quary=None):
+	if quary==None:
+		url = meme_links()
+		r = requests.get(url)
+		res = r.json() #disc value from the website 
+		title = res['title']
+		ups = res['ups']
+		downs = res['downs']
+		sub = res['subreddit']
+		Id = res['id']
+		title_link = title.replace(" ","_")
+		reddit_link = "https://www.reddit.com/r/"+sub+"/comments/"+Id+"/"+title_link+"/"
+		embed = discord.Embed(title=f"{title}\nsubreddit: {sub}",url=reddit_link,color=discord.Color.blue())   
+		embed.set_image(url = res["image"])
+		embed.set_footer(text=f"👍:{ups}   👎:{downs}") 
 
-	await ctx.send(embed=embed)
+		await ctx.send(embed=embed)
+	else:
+		url = "https://memes.blademaker.tv/api/{}".format(quary)
+		r = requests.get(url)
+		res = r.json() #disc value from the website 
+		
+		try:
+			title = res['title']
+			ups = res['ups']
+			downs = res['downs']
+			sub = res['subreddit']
+			Id = res['id']
+			title_link = title.replace(" ","_")
+			reddit_link = "https://www.reddit.com/r/"+sub+"/comments/"+Id+"/"+title_link+"/"
+			embed = discord.Embed(title=f"{title}\nsubreddit: {sub}",url=reddit_link,color=discord.Color.blue())   
+			embed.set_image(url = res["image"])
+			embed.set_footer(text=f"👍:{ups}   👎:{downs}") 
+			await ctx.send(embed=embed)
+
+		except KeyError:
+			await ctx.send('subreddit not found')
+
+
 
 ### Meme_NSFW ###
 
 @client.command(aliases=['mn','MEME_NSFW'], help='-> gives')
 async def meme_nsfw(ctx):
-		link=['https://memes.blademaker.tv/api/nswf']
-		url = random.choice(links)
+		
+		url = nsfw_links()
 		r = requests.get(url)
 		res = r.json()
 		title = res['title']
@@ -215,8 +273,26 @@ async def meme_nsfw(ctx):
 
 @client.command(aliases=['Porn','pn'], help='-> do you really need an explanation ')
 async def porn(ctx):
-	links=['https://memes.blademaker.tv/api/onlyfansgirls101','https://memes.blademaker.tv/api/Nude_Selfie','https://memes.blademaker.tv/api/gonewild','https://memes.blademaker.tv/api/RealGirls','https://memes.blademaker.tv/api/BustyPetite','https://memes.blademaker.tv/api/LegalTeens','https://memes.blademaker.tv/api/PetiteGoneWild','https://memes.blademaker.tv/api/adorableporn','https://memes.blademaker.tv/api/AsiansGoneWild','https://memes.blademaker.tv/api/collegesluts','https://memes.blademaker.tv/api/Amateur','https://memes.blademaker.tv/api/OnOff','https://memes.blademaker.tv/api/HappyEmbarrassedGirls',]
-	url=random.choice(links)
+	url= porn_links()
+	r = requests.get(url)
+	res = r.json()
+	title = res['title']
+	ups = res['ups']
+	downs = res['downs']
+	Id = res['id']
+	sub = res['subreddit']
+	title_link = title.replace(" ","_")
+	reddit_link = "https://www.reddit.com/r/"+sub+"/comments/"+Id+"/"+title_link+"/"
+	m = discord.Embed(title=f"{title}\nsubreddit: {sub}",url=reddit_link,color=discord.Color.dark_magenta())
+	m.set_image(url = res["image"])
+	m.set_footer(text=f"👍:{ups}   👎:{downs}") 
+	await ctx.send(embed=m)
+
+
+### Hentai ###
+@client.command(aliases=['ecchi','doujinshi','h','H'])
+async def hentai(ctx):
+	url= hentai_links()
 	r = requests.get(url)
 	res = r.json()
 	title = res['title']
@@ -264,7 +340,34 @@ async def TnD(ctx,category=None):
 		embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=embed)
 	
+### comment ###
+@client.command(aliases=['comment','com'])
+async def yt(ctx,*args):
+	msg=''
+	for words in args:
+		msg+=words
+		msg+=" "
+	msg=msg.replace(' ','%20')
+	user_name = ctx.author.display_name
+	user_img = str(ctx.author.avatar_url)
+	user_pic = user_img.replace('.webp?size=1024','.png')
+	url = f"https://some-random-api.ml/canvas/youtube-comment?username={user_name}&comment={msg}&avatar={user_pic}&dark=true%E2%80%8B"
+	final = url
+	await ctx.send(final)
 
+#### triggered ###
+@client.command()
+async def triggered(ctx, member: discord.Member=None):
+    if not member: # if no member is mentioned
+        member = ctx.author # the user who ran the command will be the member
+        
+    async with aiohttp.ClientSession() as wastedSession:
+        async with wastedSession.get(f'https://some-random-api.ml/canvas/triggered?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
+            imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+            
+            await wastedSession.close() # closing the session and;
+            
+            await ctx.reply(file=discord.File(imageData, 'triggered.gif')) # sending the file
 
 ### Echo ###
 
@@ -335,6 +438,23 @@ async def clear(ctx,value='1'):
 	else:
 		await ctx.send("The limit provided is notwithin acceptable bounds")
 
+### Kill ###
+@client.command()
+async def kill(ctx, friend: discord.Member):
+    #bob = ctx.message.author.id
+
+    l = ['one day <@{author}> stabed <@{friend}> to death <@{author}>']
+    word = random.choice(l)
+    take = word.format(author=ctx.message.author.id, friend=friend.id)
+    await ctx.send(take) 
+
+@client.command()
+async def roll_a_die(ctx,value):
+	die_value = str(roll_a_die_get(value))
+	output = 'You get a '+die_value
+	await ctx.send(output)
+
+
 
 
 #### Poll ####
@@ -394,7 +514,7 @@ winningConditions = [
     [2, 4, 6]
 ]
 
-@client.command()
+@client.command(aliases=['ttt','TTT'])
 async def tictactoe(ctx, p1: discord.Member, p2: discord.Member):
     global count
     global player1
@@ -507,7 +627,28 @@ async def place_error(ctx, error):
     elif isinstance(error, commands.BadArgument):
         await ctx.send("Please make sure to enter an integer.")
 
+@client.command(aliases=['end_ttt',"END_TTT","endttt","ENDTTT"])
+async def end(ctx):
+    # We need to declare them as global first
+    global count
+    global player1
+    global player2
+    global turn
+    global gameOver
 
+    # Assign their initial value
+    count = 0
+    player1 = ""
+    player2 = ""
+    turn = ""
+    gameOver = True
+
+    # Now print your message or whatever you want
+    myEmbed = discord.Embed(
+        title="RESET GAME",
+        description="TO START A NEW GAME, USE `$tictactoe` COMMAND",
+        color=0x2ecc71)
+    await ctx.send(embed=myEmbed)
 
 
 ################ Commands  #################
