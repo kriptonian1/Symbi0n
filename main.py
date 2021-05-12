@@ -39,8 +39,8 @@ async def help(ctx):
 	embed = discord.Embed(title="Help",description='Use `$help <description>` for extended information on that command', color=discord.Color.green())
 	embed.add_field(name="Admin", value="kick, ban, Unban", inline = False)
 	embed.add_field(name="General",value="dis(early-access) , clear, ping",inline = False)
-	embed.add_field(name="Interactive",value="echo, Tictactoe (early-access), merlin, TnD, flp, poll", inline = False)
-	embed.add_field(name="Entertainment",value="porn, meme, memes_nsfw, quotes", inline = False)
+	embed.add_field(name="Interactive",value="echo, Tictactoe (early-access), merlin, TnD, flp, poll, horny,yt, wasted, triggered", inline = False)
+	embed.add_field(name="Entertainment",value="porn, meme, memes_nsfw, quotes, anime_quote", inline = False)
 	await ctx.send(embed=embed)
 
 ### Game ###
@@ -127,8 +127,8 @@ async def poll(ctx):
 
 @help.command()
 async def tictactoe(ctx):
-	embed = discord.Embed(title="Flip a Coin",description="",color=discord.Color.green())
-	embed.add_field(name="**Syntax**",value="`$tictactoe <@player1> <@player2>`")
+	embed = discord.Embed(title="TicTacToe",description="",color=discord.Color.green())
+	embed.add_field(name="**Syntax**",value="`$tictactoe <@player1> <@player2>`\n`$place <box number>`")
 	await ctx.send(embed=embed)
 
 
@@ -187,7 +187,17 @@ async def quote(ctx):
 	embed.set_footer(text=author) 
 	await ctx.send(embed = embed)
 
-
+### Quote Anime ###
+@client.command(aliases=['aq','anime_quote'])
+async def quote_anime(ctx):
+	response = requests.get('https://some-random-api.ml/animu/quote')
+	json_data = json.loads(response.text)
+	quote = json_data["sentence"]
+	characther = json_data["characther"]
+	anime = json_data["anime"]
+	embed = discord.Embed(title=quote)
+	embed.set_footer(text=characther+f"({anime})")
+	await ctx.send(embed=embed)
 
 
 
@@ -200,7 +210,7 @@ async def Merlin(ctx,*,question = None):
 	ball = get_merlin(question)
 	embed = discord.Embed(description=ball,color = discord.Color.light_grey())
 	embed.set_author(name = 'Merlin',icon_url = 'http://img2.wikia.nocookie.net/__cb20130215182314/scribblenauts/images/f/fc/Wizard_Male.png') 
-	await ctx.send(embed=embed)
+	await ctx.reply(embed=embed)
 
 
 
@@ -249,7 +259,7 @@ async def memes(ctx,quary=None):
 
 ### Meme_NSFW ###
 
-@client.command(aliases=['mn','MEME_NSFW'], help='-> gives')
+@client.command(aliases=['mn','MEME_NSFW','memes_nsfw','MEMES_NSFW','MEME NSFW','memes nsfw','meme nsfw','MEMES NSFW','memes n','meme n','memes_n','meme_n'], help='-> gives')
 async def meme_nsfw(ctx):
 		
 		url = nsfw_links()
@@ -355,6 +365,10 @@ async def yt(ctx,*args):
 	final = url
 	await ctx.send(final)
 
+### 
+
+
+
 #### triggered ###
 @client.command()
 async def triggered(ctx, member: discord.Member=None):
@@ -368,6 +382,34 @@ async def triggered(ctx, member: discord.Member=None):
             await wastedSession.close() # closing the session and;
             
             await ctx.reply(file=discord.File(imageData, 'triggered.gif')) # sending the file
+
+### Horny ###
+@client.command()
+async def horny(ctx, member: discord.Member=None):
+		if not member: # if no member is mentioned
+			member = ctx.author # the user who ran the command will be the member
+        
+		async with aiohttp.ClientSession() as wastedSession:
+			async with wastedSession.get(f'https://some-random-api.ml/canvas/horny?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
+				imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+            
+			await wastedSession.close() # closing the session and;
+            
+			await ctx.reply(file=discord.File(imageData, 'horny.png')) # sending the file
+
+### Wasted ###
+@client.command()
+async def wasted(ctx, member: discord.Member=None):
+		if not member: # if no member is mentioned
+			member = ctx.author # the user who ran the command will be the member
+        
+		async with aiohttp.ClientSession() as wastedSession:
+			async with wastedSession.get(f'https://some-random-api.ml/canvas/wasted?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
+				imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+            
+			await wastedSession.close() # closing the session and;
+            
+			await ctx.reply(file=discord.File(imageData, 'triggered.png')) # sending the file
 
 ### Echo ###
 
