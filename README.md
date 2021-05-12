@@ -9,7 +9,7 @@
 
 **_```Flip a coin (modify @kriptonian)```_** -> flips a coin randomly and returns head or tali
 
-**_```Memes (Modify @frank)```_** -> show memes from reddit
+**_```Memes (Modify @frank)```_** -> show memes from subreddit
 
 **_```Meme_NSFW (modify @frank )```_** -> show nsfw memes from reddit
 
