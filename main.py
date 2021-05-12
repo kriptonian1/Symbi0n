@@ -4,7 +4,7 @@ import requests
 import json
 import random
 import aiohttp
-import io
+from io import *
 import time
 from discord.ext import commands, tasks
 from keep_alive import keep_alive
@@ -15,6 +15,7 @@ from meme_nsfw_link import nsfw_links
 from meme_link import meme_links
 from hentai_link import hentai_links
 from roll_a_die import roll_a_die_get
+from PIL import Image, ImageFont, ImageDraw
 
 
 client = commands.Bot(command_prefix = '$')
@@ -496,6 +497,37 @@ async def roll_a_die(ctx,value):
 	output = 'You get a '+die_value
 	await ctx.send(output)
 
+#### Wanted ###
+@client.command()
+async def wanted(ctx, user: discord.Member = None,price = None):
+	if user == None:
+		user = ctx.author
+	
+	wanted = Image.open("wanted.jpg")
+
+	asset = user.avatar_url_as(size=128)
+	data = BytesIO(await asset.read())
+	pfp = Image.open(data)
+
+	pfp = pfp.resize((321,321))
+	wanted.paste(pfp,(123,250))
+
+	wanted.save("profile.jpg")
+
+	img = Image.open("profile.jpg")
+	font = ImageFont.truetype("Go_2_Old_Western.ttf",64)
+
+	draw = ImageDraw.Draw(img)
+
+	price_val = ['1000','200','177013','404','420','80085','69','696969','5318008','42','101','300','316','419','9000','911','666','999','777'] 
+	if price == None:
+		price = random.choice(price_val)
+
+	draw.text((220,620),price,(0,0,0),font=font,align = "center")
+
+	img.save("profile.jpg")
+
+	await ctx.send(file = discord.File("profile.jpg"))
 
 
 
