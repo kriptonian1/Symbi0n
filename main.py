@@ -84,9 +84,9 @@ async def porn(ctx):
 	await ctx.send(embed=embed)
 
 @help.command()
-async def meme_nsfw(ctx):
+async def memes_nsfw(ctx):
 	embed = discord.Embed(title="Meme NSFW",description="",color=discord.Color.green())
-	embed.add_field(name="**Syntax**",value="`$meme_nsfw`")
+	embed.add_field(name="**Syntax**",value="`$memes_nsfw`")
 	await ctx.send(embed=embed)
 
 @help.command()
@@ -378,7 +378,7 @@ async def triggered(ctx, member: discord.Member=None):
         
     async with aiohttp.ClientSession() as wastedSession:
         async with wastedSession.get(f'https://some-random-api.ml/canvas/triggered?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
-            imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+            imageData = BytesIO(await wastedImage.read()) # read the image/bytes
             
             await wastedSession.close() # closing the session and;
             
@@ -392,7 +392,7 @@ async def horny(ctx, member: discord.Member=None):
         
 		async with aiohttp.ClientSession() as wastedSession:
 			async with wastedSession.get(f'https://some-random-api.ml/canvas/horny?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
-				imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+				imageData = BytesIO(await wastedImage.read()) # read the image/bytes
             
 			await wastedSession.close() # closing the session and;
             
@@ -406,7 +406,7 @@ async def wasted(ctx, member: discord.Member=None):
         
 		async with aiohttp.ClientSession() as wastedSession:
 			async with wastedSession.get(f'https://some-random-api.ml/canvas/wasted?avatar={member.avatar_url_as(format="png", size=1024)}') as wastedImage: # get users avatar as png with 1024 size
-				imageData = io.BytesIO(await wastedImage.read()) # read the image/bytes
+				imageData = BytesIO(await wastedImage.read()) # read the image/bytes
             
 			await wastedSession.close() # closing the session and;
             
