@@ -1,3 +1,7 @@
+<p align="center"><img src="https://user-images.githubusercontent.com/74916308/122676831-5355e000-d1fd-11eb-83da-ebc9869cea30.png" alt="Symbi0n"></p>
+
+
+
 ## Features
 **_Merlin(8ball)_** -> plays 8ball answer in yes or no
 
