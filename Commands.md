@@ -1,4 +1,9 @@
 ## Symbi0n Commands
+Here is the list of all commands that can be found in Symbi0n bot. 
+`$` &#8592; Symbi0n command prefix.
+`< >` &#8592; Portions marked with this symblos are must to fill
+`[ ]` &#8592; Portions marked with this symbol are opional.
+`@`  &#8592; Portions where users are mentioned.
 
 ### Admin Commands
 
@@ -29,3 +34,14 @@
 | `$yt <message>` | Make a fake comment on youtube|
 | `$wasted @<user>` | Mention your friend and see him wasted|
 | `$triggered` | Mention your friend to trigger him/her|  
+
+## Entertainment Commands
+
+| Command | Description |
+| :---: | :---:|
+| `$porn` | Well, we all know what it dose |
+| `$meme` | It gives you random meme from reddit|
+| `$memes_nsfw` | It's meme but NSFW |
+| `$quote` | Gives you quotes of some famous people |
+| `$anime_quote` | Gives some anime line as quote|
+| `$wanted @<user> [amount]` | Mkes a wanted poster for the mentioned user with a random number but number can be added by the user |
