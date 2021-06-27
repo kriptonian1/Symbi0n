@@ -8,7 +8,7 @@
 [![markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)](https://www.markdownguide.org/cheat-sheet)
 ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
 [![Open Source Love](https://img.shields.io/badge/Open%E2%9D%A4%EF%B8%8FSource-000000?style=for-the-badge)](https://opensource.com/resources/what-open-source)
-![Discord Bot](https://img.shields.io/badge/Discord_Bot-7289DA?style=for-the-badge&logo=Dependabot&logoColor=white)
+[![Discord Bot](https://img.shields.io/badge/Discord_Bot-7289DA?style=for-the-badge&logo=Dependabot&logoColor=white)](https://discord.com/api/oauth2/authorize?client_id=834675482917601310&permissions=8&scope=bot)
 
 ![Stars](https://img.shields.io/github/stars/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=stars)
 ![Forks](https://img.shields.io/github/forks/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=forks)
