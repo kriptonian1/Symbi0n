@@ -1,5 +1,23 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/74916308/122676831-5355e000-d1fd-11eb-83da-ebc9869cea30.png" alt="Symbi0n"></p>
 
+##
+  
+![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)
+[![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kriptonian1/Symbi0n)
+![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
+![markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
+![Open Source Love](https://badges.frapsoft.com/os/v3/open-source-150x25.png?v=103)
+
+![Stars](https://img.shields.io/github/stars/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=stars)
+![Forks](https://img.shields.io/github/forks/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=forks)
+![PR open](https://img.shields.io/github/issues-pr/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=issues-pr)
+![PR closed](https://img.shields.io/github/issues-pr-closed/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=issues-pr-closed)
+![Watcher](https://img.shields.io/github/watchers/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=watchers)
+![issues open](https://img.shields.io/github/issues/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=issues)
+![issues closed](https://img.shields.io/github/issues-closed/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=issues-closed)
+
+##
 
 
 ## Features
