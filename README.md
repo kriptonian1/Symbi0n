@@ -19,7 +19,11 @@
 ![issues closed](https://img.shields.io/github/issues-closed/kriptonian1/Symbi0n.svg?style=for-the-badge&logo=issues-closed)
 
 ##
-
+## Index
+- [About]()
+- [For first time contributers](https://github.com/firstcontributions/first-contributions)
+- [How to get started]()
+- [Commands](https://github.com/kriptonian1/Symbi0n/blob/master/Commands.md)
 
 
 ## Features
