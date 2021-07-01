@@ -7,7 +7,6 @@ import aiohttp
 from io import *
 import time
 from discord.ext import commands, tasks
-from keep_alive import keep_alive
 from merlin import get_merlin
 from Truth_n_Dare import *
 from porn_link import porn_links
@@ -16,6 +15,7 @@ from meme_link import meme_links
 from hentai_link import hentai_links
 from roll_a_die import roll_a_die_get
 from PIL import Image, ImageFont, ImageDraw
+from decouple import config
 
 
 client = commands.Bot(command_prefix = '$')
@@ -736,9 +736,6 @@ async def change_status():
 ########### Status ###############
 
 # !!!!  pls don't change the things under !!!! 
-Token = os.environ['TOKEN']
 
-
-keep_alive() #to run the web server 
-
+Token = config("TOKEN")
 client.run(Token)   #to run the bot
