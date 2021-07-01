@@ -1,9 +1,10 @@
 ## Symbi0n Commands
 Here is the list of all commands that can be found in Symbi0n bot. 
-`$` &#8592; Symbi0n command prefix.
-`< >` &#8592; Portions marked with this symblos are must to fill
-`[ ]` &#8592; Portions marked with this symbol are opional.
-`@`  &#8592; Portions where users are mentioned.
+
+- `$` &#8592; Symbi0n command prefix.
+- `< >` &#8592; Portions marked with this symblos are must to fill
+- `[ ]` &#8592; Portions marked with this symbol are opional.
+- `@`  &#8592; Portions where users are mentioned.
 
 ### Admin Commands
 
