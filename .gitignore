@@ -1,5 +1,6 @@
 *.env
-*.idea
-*.vscode
-/robot
 **/__pycache__
+*.vscode
+ideas.txt
+keep_alive.py
+profile.jpg
