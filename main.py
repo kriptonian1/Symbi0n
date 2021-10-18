@@ -1,4 +1,3 @@
-import os
 import discord
 import requests
 import json
@@ -7,20 +6,14 @@ import aiohttp
 from io import *
 import time
 from discord.ext import commands, tasks
-from merlin import get_merlin
-from Truth_n_Dare import *
-from porn_link import porn_links
-from meme_nsfw_link import nsfw_links
-from meme_link import meme_links
-from hentai_link import hentai_links
-from roll_a_die import roll_a_die_get
 from PIL import Image, ImageFont, ImageDraw
 from decouple import config
+from utils import Utils
 
 
 client = commands.Bot(command_prefix = '$')
 client.remove_command("help")
-
+utils = Utils()
 
 
 #this return a respond which says is we are connected or not
@@ -28,8 +21,6 @@ client.remove_command("help")
 async def on_ready():
     print('bot {0.user} is online'.format(client)) 
     change_status.start()
-
-
 
 
 
@@ -208,7 +199,7 @@ async def quote_anime(ctx):
 async def Merlin(ctx,*,question = None):
 	if question == None:
 		await ctx.send('You forgot to ask a question \nTo know more use`$help merlin`')
-	ball = get_merlin(question)
+	ball = utils.get_merlin(question)
 	embed = discord.Embed(description=ball,color = discord.Color.light_grey())
 	embed.set_author(name = 'Merlin',icon_url = 'http://img2.wikia.nocookie.net/__cb20130215182314/scribblenauts/images/f/fc/Wizard_Male.png') 
 	await ctx.reply(embed=embed)
@@ -220,7 +211,7 @@ async def Merlin(ctx,*,question = None):
 @client.command(aliases=['meme','m','Meme',], help='-> gives')
 async def memes(ctx,quary=None):
 	if quary==None:
-		url = meme_links()
+		url = utils.get_meme_links()
 		r = requests.get(url)
 		res = r.json() #disc value from the website 
 		title = res['title']
@@ -263,7 +254,7 @@ async def memes(ctx,quary=None):
 @client.command(aliases=['mn','MEME_NSFW','memes_nsfw','MEMES_NSFW','MEME NSFW','memes nsfw','meme nsfw','MEMES NSFW','memes n','meme n','memes_n','meme_n'], help='-> gives')
 async def meme_nsfw(ctx):
 		
-		url = nsfw_links()
+		url = utils.get_nsfw_links()
 		r = requests.get(url)
 		res = r.json()
 		title = res['title']
@@ -284,7 +275,7 @@ async def meme_nsfw(ctx):
 
 @client.command(aliases=['Porn','pn'], help='-> do you really need an explanation ')
 async def porn(ctx):
-	url= porn_links()
+	url= utils.get_porn_link()
 	r = requests.get(url)
 	res = r.json()
 	title = res['title']
@@ -303,7 +294,7 @@ async def porn(ctx):
 ### Hentai ###
 @client.command(aliases=['ecchi','doujinshi','h','H'])
 async def hentai(ctx):
-	url= hentai_links()
+	url= utils.get_hentai_links()
 	r = requests.get(url)
 	res = r.json()
 	title = res['title']
@@ -343,11 +334,11 @@ async def TnD(ctx,category=None):
 	if category == None :
 		await ctx.send('Pls chose truth(t) or False(f) \nOr use `$help TnD` to know more') 
 	if category == 'truth' or category == 't':
-		embed = discord.Embed(title='your truth is', description=truth())
+		embed = discord.Embed(title='your truth is', description=utils.get_truth_question())
 		embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=embed)
 	if category == 'dare' or category == 'd':
-		embed = discord.Embed(title='your dare is', description=dare())
+		embed = discord.Embed(title='your dare is', description=utils.get_dare_question())
 		embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
 		await ctx.send(embed=embed)
 	
@@ -493,7 +484,7 @@ async def kill(ctx, friend: discord.Member):
 
 @client.command()
 async def roll_a_die(ctx,value):
-	die_value = str(roll_a_die_get(value))
+	die_value = str(utils.get_die(value))
 	output = 'You get a '+die_value
 	await ctx.send(output)
 
