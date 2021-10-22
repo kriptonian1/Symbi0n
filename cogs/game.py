@@ -61,7 +61,7 @@ class Game(commands.Cog):
             except KeyError:
                 await ctx.send('subreddit not found')
         
-    @commands.command(aliases=['flip a coin','flp','coin'],help='-> flips the coin')
+    @commands.command(aliases=['flipacoin','flp','coin'],help='-> flips the coin')
     async def flip_a_coin(self, ctx):
         coin = ['Heads','Tails']
         outcome = random.choice(coin)
