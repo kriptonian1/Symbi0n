@@ -11,8 +11,10 @@ class NSFW(commands.Cog):
 		self.utils = Utils()
 	
 	async def cog_check(self, ctx):
-		await ctx.send('You need to run this command in a nsfw channel')
-		return ctx.channel.is_nsfw()
+		possible = ctx.channel.is_nsfw()
+		if not possible:
+			await ctx.send('You need to run this command in a nsfw channel')
+		return possible
 	
 	@commands.command(aliases=['mn','memes_nsfw','memes nsfw','meme nsfw','memes n','meme n','memes_n','meme_n'], help='-> gives')
 	async def meme_nsfw(self, ctx):
