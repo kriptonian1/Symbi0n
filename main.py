@@ -15,7 +15,7 @@ from botutils.common import Paginate
 
 CFL = CallFromList()
 
-class AniCardBot(commands.Bot):
+class Symbion(commands.Bot):
 
     def __init__(self, **kwargs):
         
@@ -140,7 +140,7 @@ bot_args = {
     "case_insensitive": True,
     "token": config("TOKEN")
 }
-bot = AniCardBot(**bot_args)
+bot = Symbion(**bot_args)
 
 
 # LOAD A NEW COG
