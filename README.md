@@ -62,7 +62,6 @@
 
 ## Tasks
 - [ ] Write Description 
-- [x] Add more link to `Porn`
 - [ ] Add some more liks to `Memes`
 - [ ] Add more links to `Meme_NSFW`
 - [ ] Redo the Questions of `Truth and Dare`
